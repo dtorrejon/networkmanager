@@ -82,11 +82,11 @@ Endpoint to create organization and admin user  `/api/v1/organization`
 
 
 
-![image-20231222153702050](/Users/dtorrejon/Library/Application Support/typora-user-images/image-20231222153702050.png)
+![swagger-1](docs/images/swagger_1.png)
 
 
 
-![image-20231222153736486](/Users/dtorrejon/Library/Application Support/typora-user-images/image-20231222153736486.png)
+![swagger-2](docs/images/swagger_2.png)
 
 
 
@@ -94,7 +94,7 @@ Important: Before first access, you must be restart application service
 
 
 
-![image-20231222155456898](/Users/dtorrejon/Library/Application Support/typora-user-images/image-20231222155456898.png)
+![swagger-login](docs/images/swagger_login.png)
 
 
 
