@@ -1,0 +1,57 @@
+C4Context
+
+            Person_Ext(NetworkEngineer, "<br/>Network<br/>Engineer")
+            ContainerDb_Ext(TenantDB,"Network Manager DB","MongoDB Atlas", "Stores all info about users,<br/>network elements<br/>and tenant info")
+            Container_Ext(CloudConnexa,"Cloud VPN Service","Cloud Connexa", "Establish VPN session<br/>between tenant<br/>and Customer Networks")
+
+
+    Boundary(TenantSystem, "API Tenant Server", "Component") {
+            Component(APIRoutes,"Api Routes", "Fast API","API Gateway")
+            Component(Tenant,"Tenant Use cases", "Python","Manage tenant info")
+            Component(ApplianceAdapter,"Appliance Adapter", "Python","Manage customer Appliances")
+            Component(ServiceStatus,"Appliance Status", "Python","Verify if appliance<br/>is reachable")
+            Component(User,"User Use cases", "Python","Users Administration")
+            Component(Security,"Security Component", "Python JOSE","Provide users validation<br/>and tokens")
+            Component(Node,"Node Use cases", "Python","Appliances administration")
+            Component(ApplianceUseCase,"Appliance Use cases", "Python","Send commands")
+
+
+        Rel(APIRoutes,ApplianceUseCase, "Uses")
+        UpdateRelStyle(APIRoutes,ApplianceUseCase, $textColor="violet", $lineColor="black", $offsetY="-10", $offsetX="0")
+
+        Rel(APIRoutes,Tenant, "Uses")
+        UpdateRelStyle(APIRoutes,Tenant, $textColor="violet", $lineColor="black", $offsetY="-10", $offsetX="-10")
+
+        Rel(APIRoutes,User, "Uses")
+        UpdateRelStyle(APIRoutes,User, $textColor="violet", $lineColor="black", $offsetY="0", $offsetX="-40")
+
+        Rel(APIRoutes,Node, "Uses")
+        UpdateRelStyle(APIRoutes,Node, $textColor="violet", $lineColor="black", $offsetY="0", $offsetX="0")
+
+        Rel(ApplianceUseCase,ApplianceAdapter, "Uses")
+        UpdateRelStyle(ApplianceUseCase,ApplianceAdapter, $textColor="violet", $lineColor="black", $offsetY="0", $offsetX="40")
+
+        Rel(User,Security, "Uses")
+        UpdateRelStyle(User,Security, $textColor="violet", $lineColor="black", $offsetY="-10", $offsetX="-10")
+
+        Rel(Tenant,TenantDB, "Read from<br/>and Write to","MONGODB/TCP")
+        UpdateRelStyle(Tenant,TenantDB, $textColor="violet", $lineColor="black", $offsetY="50", $offsetX="-90")
+
+        Rel(User,TenantDB, "Read from<br/>and Write to","MONGODB/TCP")
+        UpdateRelStyle(User,TenantDB, $textColor="violet", $lineColor="black", $offsetY="-110", $offsetX="-80")
+
+        Rel(Node,TenantDB, "Read from<br/>and Write to","MONGODB/TCP")
+        UpdateRelStyle(Node,TenantDB, $textColor="violet", $lineColor="black", $offsetY="-150", $offsetX="-50")
+
+        Rel(ApplianceAdapter,CloudConnexa, "Send command to Appliance<br/>through VPN connection<br/>","VPN/SSL")
+        UpdateRelStyle(ApplianceAdapter,CloudConnexa, $textColor="violet", $lineColor="black", $offsetY="40", $offsetX="15")
+
+        Rel(NetworkEngineer,APIRoutes, "Send commands to manage<br/>network elements and<br/>receive responses<br/><br/>","JSON/HTTP:8000")
+        UpdateRelStyle(NetworkEngineer,APIRoutes, $textColor="violet", $lineColor="black", $offsetY="-40", $offsetX="-180")
+
+        Rel(ServiceStatus,CloudConnexa, "Check<br/>network elements status<br/>","JSON/HTTP:8000")
+        UpdateRelStyle(ServiceStatus,CloudConnexa, $textColor="violet", $lineColor="black", $offsetY="50", $offsetX="90")
+
+}
+      UpdateLayoutConfig($c4ShapeInRow="4", $c4BoundaryInRow="2")
+

@@ -1,0 +1,30 @@
+
+C4Context
+    Boundary(SC, "<br/>Network Manager System<br/>", "Software System"){
+
+        Person_Ext(NetworkEngineer, "<br/>Network<br/>Engineer")
+        System(TenantSystem,"<br/>Tenants", "Contain tenant instances")
+        System(DeploySystem,"Deploy System", "Deploy tenant instance and<br/>generate Cloud Connexa connectors")
+
+
+        Boundary(CustomerSystem, "Customer Networks", "Software System") {
+            Container_Ext(CustomerNetworks,"<br/>Customer<br/>Network elements", "Network infrastructure")
+            Container(VMConnector,"VMConnector", "OpenVPN Connector")
+
+        }
+
+        BiRel(NetworkEngineer,DeploySystem, "Create new<br/>Tenant organization")
+        UpdateRelStyle(NetworkEngineer,DeploySystem, $textColor="Green", $lineColor="Beige", $offsetY="0", $offsetX="-120")
+
+        BiRel(TenantSystem,VMConnector, "VPN between Tenant<br/>and customer internal systems<br/>","VPN/SSL")
+        UpdateRelStyle(TenantSystem,VMConnector, $textColor="violet", $lineColor="Beige", $offsetY="0", $offsetX="10")
+
+        BiRel(VMConnector, CustomerNetworks, "Communication between<br/>VM connector and<br/>customer networks<br/>","TCP/IP")
+        UpdateRelStyle(VMConnector, CustomerNetworks, $textColor="violet", $lineColor="beige", $offsetY="50", $offsetX="-40")
+
+        Rel(DeploySystem,TenantSystem,"Create<br/>tenant instances")
+        UpdateRelStyle(DeploySystem,TenantSystem, $textColor="Green", $lineColor="Beige", $offsetY="30", $offsetX="-40")
+
+
+      UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="4")
+    }

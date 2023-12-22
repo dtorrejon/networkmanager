@@ -1,0 +1,51 @@
+C4Context
+Boundary(SC, "<br/>Network Manager System<br/>", "Software System"){
+    Person_Ext(NetworkEngineer, "<br/>Network<br/>Engineer")
+    System(TenantSystem,"<br/>Tenants", "Contain tenant instances")
+    System_Ext(CustomerSystem,"Customer Networks", "Internal systems <br/>and network infrastructure")
+
+    Boundary(DeploySystem, "Deploy System", "Software System") {
+
+        Container(WebFileServer,"Web File Server", "Apache","Download VM's<br/>with OpenVPN<br/>preconfigured service")
+        Container_Ext(EmailService,"Email Service", "Resend", "Send email when<br/>VM client connector ready")
+        Container(APIDeployServer,"API Deploy Server", "FastAPI","Create a new Tenant")
+        Container_Ext(VPNService,"VPN Service", "Cloud Connexa","Establish<br/>site to site VPN<br/>between tenant and<br/>preconfigured VM's")
+        ContainerDb_Ext(DeployDB,"Network Manager DB","MongoDB Atlas", "Stores all info<br/>about deployed tenants")
+        Container(VMServer,"VM Server", "Virtio","Generate<br/>VM Cloud Connexa<br/>image connector")
+
+    }
+
+
+    BiRel(NetworkEngineer,TenantSystem, "Send commands to manage<br/>network elements and<br/>receive responses")
+    UpdateRelStyle(NetworkEngineer,TenantSystem, $textColor="Green", $lineColor="black", $offsetY="-100", $offsetX="-70")
+
+    Rel(NetworkEngineer,APIDeployServer, "Send commands to manage<br/>network elements and<br/>receive responses<br/><br/>","JSON/HTTP:8000")
+    UpdateRelStyle(NetworkEngineer,APIDeployServer, $textColor="violet", $lineColor="black", $offsetY="-10", $offsetX="-40")
+
+    Rel(WebFileServer, NetworkEngineer, "Download Cloud<br/>Connexa VM connector<br/>","HTTP:80")
+    UpdateRelStyle(WebFileServer, NetworkEngineer, $textColor="violet", $lineColor="black", $offsetY="-40", $offsetX="-140")
+
+    BiRel(VPNService, CustomerSystem, "VPN between Cloud service<br/>and VM connector deployed<br/>on client side<br/><br/>","VPN/SSL")
+    UpdateRelStyle(VPNService, CustomerSystem, $textColor="violet", $lineColor="black", $offsetY="-30", $offsetX="10")
+
+    BiRel(TenantSystem,VPNService, "VPN between Cloud service<br/>and each tenant<br/>","VPN/SSL")
+    UpdateRelStyle(TenantSystem,VPNService, $textColor="violet", $lineColor="black", $offsetY="-10", $offsetX="-40")
+
+    Rel(EmailService,NetworkEngineer,"Send email to confirm<br/>connector ready to download<br/>","SMTP")
+    UpdateRelStyle(EmailService, NetworkEngineer, $textColor="Violet", $lineColor="black", $offsetY="20", $offsetX="-110")
+
+    BiRel(APIDeployServer,EmailService,"Use<br/>Email service<br/>for<br/>client notification<br/><br/><br/>","JSON/HTTP")
+    UpdateRelStyle(APIDeployServer, EmailService, $textColor="Violet", $lineColor="black", $offsetY="-40", $offsetX="-50")
+
+    Rel(APIDeployServer,VPNService,"Configure network service<br/>for tenant and VM connector<br/>","JSON/HTTP")
+    UpdateRelStyle(APIDeployServer, VPNService, $textColor="Violet", $lineColor="black", $offsetY="50", $offsetX="-110")
+
+    Rel(APIDeployServer,VMServer,"Build VM client connector<br/>","YAML/SSH")
+    UpdateRelStyle(APIDeployServer,VMServer, $textColor="Violet", $lineColor="black", $offsetY="10", $offsetX="30")
+
+    Rel(APIDeployServer,DeployDB,"Save an query tenants<br/>","MONGODB/TCP")
+    UpdateRelStyle(APIDeployServer,DeployDB, $textColor="Violet", $lineColor="black", $offsetY="-10", $offsetX="-130")
+
+
+  UpdateLayoutConfig($c4ShapeInRow="4", $c4BoundaryInRow="2")
+}

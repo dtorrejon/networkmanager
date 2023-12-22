@@ -1,0 +1,20 @@
+
+C4Context
+    Boundary(SC, "<br/>Network Manager System<br/>", "Software System"){
+        Person_Ext(NetworkEngineer, "<br/>Network<br/>Engineer")
+        System_Ext(CustomerSystem,"Customer Networks", "Internal systems <br/>and network infrastructure")
+        System(DeploySystem,"Deploy System", "Deploy tenant instance and<br/>generate Cloud Connexa connectors")
+        System(TenantSystem,"<br/>Tenants", "Contain tenant instances")
+
+        Rel(NetworkEngineer,DeploySystem, "1: Create new<br/>Tenant organization")
+        UpdateRelStyle(NetworkEngineer,DeploySystem, $textColor="Green", $lineColor="Black", $offsetY="0", $offsetX="-120")
+
+        Rel(TenantSystem,CustomerSystem, "3: Send/receive specific orders<br/>originated by Network Engineer")
+        UpdateRelStyle(TenantSystem,CustomerSystem, $textColor="Green", $lineColor="Black", $offsetY="0", $offsetX="10")
+
+        Rel(DeploySystem,TenantSystem,"2: Create<br/>tenant instances")
+        UpdateRelStyle(DeploySystem,TenantSystem, $textColor="Green", $lineColor="Black", $offsetY="30", $offsetX="-40")
+
+      UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="2")
+    }
+

@@ -1,0 +1,35 @@
+C4Context
+    Boundary(SC, "<br/>Network Manager System<br/>", "Software System"){
+        Person_Ext(NetworkEngineer, "<br/>Network<br/>Engineer")
+        System(DeploySystem,"Deploy System", "Deploy tenant instance and<br/>generate Cloud Connexa connectors")
+        System_Ext(CustomerSystem,"Customer Networks", "Internal systems <br/>and network infrastructure")
+
+
+Boundary(TenantSystem, "Tenant System", "Software System") {
+
+            ContainerDb_Ext(TenantDB,"Network Manager DB","MongoDB Atlas", "Stores all info about users,<br/>network elements<br/>and tenant info")
+            Container(APITenantServer,"API Tenant Server", "FastAPI","Network management<br/>API Broker")
+            Container_Ext(CloudConnexa,"Cloud VPN Service","Cloud Connexa", "Establish VPN session<br/>between tenant<br/>and Customer Networks")
+            }
+
+        Rel(NetworkEngineer,DeploySystem, "Create new<br/>Tenant organization")
+        UpdateRelStyle(NetworkEngineer,DeploySystem, $textColor="Green", $lineColor="Black", $offsetY="30", $offsetX="-45")
+
+        Rel(NetworkEngineer,APITenantServer, "Send commands to manage<br/>network elements and<br/>receive responses<br/><br/>","JSON/HTTP:8000")
+        UpdateRelStyle(NetworkEngineer,APITenantServer, $textColor="violet", $lineColor="Black", $offsetY="-40", $offsetX="-250")
+
+        Rel(DeploySystem,APITenantServer,"Create tenant instances<br/>in a Cloud Servie Provider<br/>","API/HTTP")
+        UpdateRelStyle(DeploySystem,APITenantServer, $textColor="violet", $lineColor="Black", $offsetY="-40", $offsetX="0")
+
+        BiRel(APITenantServer,CloudConnexa, "VPN between Cloud service<br/>and tenant<br/>","VPN/SSL")
+        UpdateRelStyle(APITenantServer,CloudConnexa, $textColor="violet", $lineColor="Black", $offsetY="70", $offsetX="-40")
+
+        BiRel(CloudConnexa, CustomerSystem, "VPN between Cloud service<br/>and VM connector deployed<br/>on client side<br/><br/>","VPN/SSL")
+        UpdateRelStyle(CloudConnexa, CustomerSystem, $textColor="violet", $lineColor="Black", $offsetY="-30", $offsetX="10")
+
+        Rel(APITenantServer,TenantDB,"Save and query users,<br/>network elements,<br/>tenant info...<br/><br/>","MONGODB/TCP")
+        UpdateRelStyle(APITenantServer,TenantDB, $textColor="violet", $lineColor="Black", $offsetY="70", $offsetX="-40")
+
+
+      UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="2")
+    }

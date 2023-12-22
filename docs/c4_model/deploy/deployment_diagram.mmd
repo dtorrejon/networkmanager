@@ -1,0 +1,85 @@
+C4Context
+
+Boundary(NetworkManagerSystem, "<br/>Network Manager System<br/>", "Deployment"){
+
+
+
+    Deployment_Node(CloudConnexa, "Cloud Connexa service", "site-to-site<br/>VPN cloud service"){
+        Container_Ext(CloudConnexa,"Cloud VPN Service","Cloud Connexa", "Establish VPN session<br/>between tenant<br/>and Customer Networks")
+    }
+
+    Deployment_Node(MongoDBAtlas, "nmanager", "Mongo DB Atlas (cloud)"){
+        ContainerDb_Ext(DB, "Network Manager DB", "mongoDB", "Stores all info about users,<br/>network elements<br/>and tenant info")
+    }
+
+    Deployment_Node(Email, "Email service", "Resend (cloud)"){
+        Container_Ext(EmailService,"Email", "Resend", "Send emails using Python library")
+    }
+
+
+    Deployment_Node(GCP, "Google Cloud Platform,", "Compute Engine"){
+
+
+        Deployment_Node(DeployServer, "Deploy", "Ubuntu 22.04 LTS"){
+
+            Deployment_Node(APIDeploy, "API Server", "Uvicorn"){
+                Container(Deploy, "API", "Python FastAPI", "Deploy tenant<br/>and configure VM connector")
+            }
+        }
+
+        Deployment_Node(TenantServer, "Tenant-xx", "Ubuntu 22.04 LTS"){
+
+            Deployment_Node(APITenant, "API Server", "Uvicorn"){
+                Container(Tenant, "API Broker", "Python FastAPI", "Isolated tenant<br/>for each customer")
+            }
+        }
+
+        Deployment_Node(TemplatesServer, "Templates", "Ubuntu 22.04 LTS"){
+
+
+
+            Deployment_Node(VMServer, "Virtual Enviroment", "Virtio"){
+                Container(Virtio, "Ubuntu 22.04 LTS<br/>pre-configured image", "qcow2", "Cloud Connexa image<br/>to customize for each customer")
+            }
+
+            Deployment_Node(Apache, "Apache Server", "Apache 2"){
+                Container(TemplateDownload, "PHP Application", "PHP Application", "Download configured images<br/>of Cloud Connexa VM's ")
+            }
+        }
+    }
+
+    Deployment_Node(CustomerApp, "Customer's API consumer", "Customer Application"){
+        Container_Ext(CustomerApplication, "APP", "API Consumer", "Uses Network Manager<br/>API Broker ")
+    }
+
+
+    Rel(CustomerApplication,TemplateDownload,"Download Cloud Connexa<br/>VM Connector<br/>","HTTP")
+    UpdateRelStyle(CustomerApplication,TemplateDownload, $textColor="green", $lineColor="black", $offsetY="20", $offsetX="0")
+
+    Rel(CustomerApplication,Deploy,"Create new Tenant service","JSON/HTTP:8000")
+    UpdateRelStyle(CustomerApplication,Deploy, $textColor="green", $lineColor="black", $offsetY="0", $offsetX="-200")
+
+    Rel(Deploy,Virtio,"Configure client<br/>VM connector<br/>","ANSIBLE/SSH")
+    UpdateRelStyle(Deploy,Virtio, $textColor="green", $lineColor="black", $offsetY="-80", $offsetX="10")
+
+    Rel(CustomerApplication,Tenant,"Send commands to manage<br/>network elements and<br/>receive responses<br/><br/>","JSON/HTTP:8000")
+    UpdateRelStyle(CustomerApplication,Tenant, $textColor="green", $lineColor="black", $offsetY="-260", $offsetX="220")
+
+    Rel(Deploy,CloudConnexa,"Configure network service<br/>for tenant and VM connector<br/>","JSON/HTTP")
+    UpdateRelStyle(Deploy, CloudConnexa, $textColor="Violet", $lineColor="black", $offsetY="-85", $offsetX="-220")
+
+    Rel(Deploy,DB,"Save an query tenants<br/>","MONGODB/TCP")
+    UpdateRelStyle(Deploy,DB, $textColor="Violet", $lineColor="black", $offsetY="-90", $offsetX="-140")
+
+    Rel(Deploy,EmailService,"Send emails to customers","email/smtp")
+    UpdateRelStyle(Deploy,EmailService, $textColor="Violet", $lineColor="black", $offsetY="-60", $offsetX="-100")
+
+    Rel(Tenant,DB,"Save and query users,<br/>network elements,<br/>tenant info...<br/><br/>","MONGODB/TCP")
+    UpdateRelStyle(Tenant,DB, $textColor="violet", $lineColor="black", $offsetY="-90", $offsetX="-20")
+
+
+}
+    UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="2")
+
+
+

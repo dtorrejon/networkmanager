@@ -1,0 +1,39 @@
+C4Context
+    Boundary(SC, "<br/>Network Manager System<br/>", "Software System"){
+        Person_Ext(NetworkEngineer, "<br/>Network<br/>Engineer")
+        System_Ext(CustomerSystem,"Customer Networks", "Internal systems <br/>and network infrastructure")
+
+
+Boundary(TenantSystem, "Tenant System", "Software System") {
+
+            ContainerDb_Ext(TenantDB,"Network Manager DB","MongoDB Atlas", "Stores all info about users,<br/>network elements<br/>and tenant info")
+            Container(APITenantServer,"API Tenant Server", "FastAPI","Network management<br/>API Broker")
+            Container_Ext(CloudConnexa,"Cloud VPN Service","Cloud Connexa", "Establish VPN session<br/>between tenant<br/>and Customer Networks")
+            }
+
+
+
+        Rel(NetworkEngineer,APITenantServer, "1: Send command to API Broker<br/>","JSON/HTTP:8000")
+        UpdateRelStyle(NetworkEngineer,APITenantServer, $textColor="violet", $lineColor="Black", $offsetY="-40", $offsetX="-250")
+
+        Rel(APITenantServer,NetworkEngineer, "7: Receive response from API Broker<br/>","JSON/HTTP:8000")
+        UpdateRelStyle(APITenantServer,NetworkEngineer, $textColor="violet", $lineColor="Black", $offsetY="-60", $offsetX="-40")
+
+        Rel(APITenantServer,CloudConnexa, "3: Send order through VPN<br/>","VPN/SSL")
+        UpdateRelStyle(APITenantServer,CloudConnexa, $textColor="violet", $lineColor="Black", $offsetY="70", $offsetX="-40")
+
+        Rel(CloudConnexa,APITenantServer, "6: Send response<br/>through VPN<br/>","VPN/SSL")
+        UpdateRelStyle(CloudConnexa,APITenantServer, $textColor="violet", $lineColor="Black", $offsetY="-50", $offsetX="-50")
+
+        Rel(CloudConnexa, CustomerSystem, "5: Send response through VPN<br/>","VPN/SSL")
+        UpdateRelStyle(CloudConnexa, CustomerSystem, $textColor="violet", $lineColor="Black", $offsetY="70", $offsetX="-130")
+
+        Rel(CustomerSystem, CloudConnexa, "4: Send order through VPN<br/>","VPN/SSL")
+        UpdateRelStyle(CustomerSystem, CloudConnexa, $textColor="violet", $lineColor="Black", $offsetY="-30", $offsetX="10")
+
+        Rel(APITenantServer,TenantDB,"2: Verify if appliance exists<br/>","MONGODB/TCP")
+        UpdateRelStyle(APITenantServer,TenantDB, $textColor="violet", $lineColor="Black", $offsetY="70", $offsetX="-40")
+
+
+      UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="2")
+    }

@@ -1,0 +1,7 @@
+db_connection:
+  database: ACME
+  url: mongodb+srv://<username>:<password>@networkmanager.my.mongodb.net/?retryWrites=true&w=majority
+db_tenant:
+  type: mongo_db_tenant
+db_users:
+  type: mongo_db_user

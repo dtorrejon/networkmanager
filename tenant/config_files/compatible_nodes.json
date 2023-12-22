@@ -1,0 +1,84 @@
+[{
+  "vendor": "cisco",
+  "model": "ioul3",
+  "technology": "router",
+  "softwareVersion": "15.5(2)T"
+},
+{
+  "vendor": "cisco",
+  "model": "ioul2",
+  "technology": "switchl2",
+  "softwareVersion": "15.2"
+},
+{
+  "vendor": "cisco",
+  "model": "iosvl2",
+  "technology": "switchl2",
+  "softwareVersion": "15.5(2)T"
+},
+{
+  "vendor": "cisco",
+  "model": "ios",
+  "technology": "switchl2",
+  "softwareVersion": "all"
+},
+{
+  "vendor": "cisco",
+  "model": "ios",
+  "technology": "switchl3",
+  "softwareVersion": "all"
+},
+{
+  "vendor": "cisco",
+  "model": "ios",
+  "technology": "router",
+  "softwareVersion": "all"
+},
+{
+  "vendor": "mikrotik",
+  "model": "RB260",
+  "technology": "switchl3",
+  "softwareVersion": "routeros"
+},
+{
+  "vendor": "mikrotik",
+  "model": "RB260",
+  "technology": "switchl3",
+  "softwareVersion": "routeros"
+},
+{
+  "vendor": "mikrotik",
+  "model": "CSS326",
+  "technology": "switchl3",
+  "softwareVersion": "routeros"
+},
+{
+  "vendor": "mikrotik",
+  "model": "CRS3xx",
+  "technology": "switchl3",
+  "softwareVersion": "routeros"
+},
+{
+  "vendor": "mikrotik",
+  "model": "CRS3",
+  "technology": "switchl3",
+  "softwareVersion": "routeros"
+},
+{
+  "vendor": "mikrotik",
+  "model": "CSS610",
+  "technology": "switchl3",
+  "softwareVersion": "routeros"
+},
+{
+  "vendor": "mikrotik",
+  "model": "GPEN21",
+  "technology": "switchl3",
+  "softwareVersion": "routeros"
+},
+{
+  "vendor": "mikrotik",
+  "model": "any",
+  "technology": "switchl3",
+  "softwareVersion": "routeros"
+}]
